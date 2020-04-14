@@ -1,66 +1,51 @@
 package _01_Olympic_Rings;
 
+import java.awt.Color;
+
 import org.jointheleague.graphical.robot.Robot;
 
 public class OlympicRings_Threaded {
 	// Make A Program that uses Threads and robots to draw the Olympic rings. One robot should draw one ring simultaneously with the other 4 robots.
 	Thread[] robots = new Thread[5];
-	Robot b = new Robot();
-	Robot y = new Robot();
-	Robot bl = new Robot();
-	Robot g = new Robot();
-	Robot r = new Robot();
-	
+	Robot b = new Robot(200, 200);
+	Robot y = new Robot(350, 350);
+	Robot bl = new Robot(500, 200);
+	Robot g = new Robot(650, 350);
+	Robot r = new Robot(800, 200);
 	public static void main(String[] args) {
 		new OlympicRings_Threaded().setup();
 	}
 	
-	public void circle(Robot r) {
-		r.penDown();
-		r.setSpeed(10);
-		r.show();      
-		for(int i = 0; i < 360; i++) {
-			r.move(1);
-			r.turn(1);
-		}
-	}
-	
 	public void setup() {
-		for(int i = 0; i < robots.length; i++) {
-			robots[i] = new Thread(()->circle());
-		}
+		b.setPenColor(Color.blue);
+		y.setPenColor(Color.yellow);
+		bl.setPenColor(Color.black);
+		g.setPenColor(Color.green);
+		r.setPenColor(Color.red);
+		b.penDown();
+		y.penDown();
+		bl.penDown();
+		g.penDown();
+		r.penDown();
+		b.hide();
+		y.hide();
+		bl.hide();
+		g.hide();
+		r.hide();
+			robots[0] = new Thread(()->circle(b));
+			robots[1] = new Thread(()->circle(y));
+			robots[2] = new Thread(()->circle(bl));
+			robots[3] = new Thread(()->circle(g));
+			robots[4] = new Thread(()->circle(r));
 		for(int i = 0; i < robots.length; i++) {
 			robots[i].start();
 		}
 	}
 	
-	public void circle() {
-		b.setPenColor(0, 0, 255);
-		b.moveTo(100, 100);
-		b.penDown();
-		y.setPenColor(255, 255, 0);
-		y.moveTo(200, 200);
-		y.penDown();
-		bl.setPenColor(0, 0, 0);
-		bl.moveTo(300, 100);
-		bl.penDown();
-		g.setPenColor(0, 255, 0);
-		g.moveTo(400, 200);
-		g.penDown();
-		r.setPenColor(255, 0, 0);
-		r.moveTo(500, 100);
-		r.penDown();
+	public void circle(Robot r) {
 		for(int i = 0; i < 360; i++) {
-			b.setAngle(i);;
-			b.move(1);
-			y.setAngle(i);
-			y.move(1);
-			bl.setAngle(i);
-			bl.move(1);
-			g.setAngle(i);
-			g.move(1);
 			r.setAngle(i);
-			r.move(1);
+			r.move(2);
 		}
 	}
 }
