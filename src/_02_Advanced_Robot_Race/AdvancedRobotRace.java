@@ -14,11 +14,10 @@ public class AdvancedRobotRace {
 
 	public static void main(String[] args) {
 		AdvancedRobotRace arr = new AdvancedRobotRace();
-		arr.setup();
 		arr.start();
 	}
 
-	public void setup() {
+	public void start() {
 		for (int i = 0; i < robots.length; i++) {
 			robots[i] = new Robot();
 			robots[i].setSpeed(10);
@@ -30,24 +29,19 @@ public class AdvancedRobotRace {
 			final int index = i;
 			threads[i] = new Thread(() -> race(robots[index]));
 		}
+		
+		for (int i = 0; i < threads.length; i++) {
+			threads[i].start();
+		}
 	}
 
 	public void race(Robot r) {
 		while(!raceOver) {
-			r.move(new Random().nextInt(25));
-			if(r.getY() < 0) {
+			r.move(new Random().nextInt(50));
+			if(r.getY() <= 0) {
 				raceOver = true;
 				break;
 			}
-		}
-	}
-
-	public void start() {
-		for (int i = 0; i < threads.length; i++) {
-			threads[i].start();
-		}
-		while(!raceOver) {
-			
 		}
 	}
 }
