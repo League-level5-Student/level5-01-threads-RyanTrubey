@@ -4,16 +4,24 @@ import java.util.Stack;
 
 public class ThreadedGreeter implements Runnable {
 	int threadNumber;
-	Stack<Thread> stack = new Stack<Thread>();
+	static Stack<Thread> stack = new Stack<Thread>();
 
 	public ThreadedGreeter(int threadNumber) {
 		this.threadNumber = threadNumber;
-		for(int i = 0; i < 50; i++) {
-			stack.push(new Thread(() -> new ThreadedGreeter(threadNumber + 1).run()));
+	}
+
+	public void createStack() {
+		for (int i = 1; i <= 50; i++) {
+			final int num = i;
+			stack.push(new Thread(() -> new ThreadedGreeter(num).run()));
 		}
 	}
 
 	public void run() {
-		stack.pop().start();
+		System.out.println("Hello from thread number: " + threadNumber);
+		
+		if (stack.size() != 0) {
+			ThreadedGreeter.stack.pop().start();
+		}
 	}
 }
